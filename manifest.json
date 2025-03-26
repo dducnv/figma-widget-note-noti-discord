@@ -1,0 +1,21 @@
+{
+  "name": "discord-send-realtime",
+  "id": "1486313076065042850",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "documentAccess": "dynamic-page",
+  "editorType": [
+    "figma",
+    "figjam"
+  ],
+  "permissions":["currentuser"],
+  "containsWidget": true,
+  "widgetApi": "1.0.0",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://discord.com"
+    ]
+  }
+}
