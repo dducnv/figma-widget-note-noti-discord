@@ -7,6 +7,7 @@ interface ConfigurationViewProps {
     setFileId: (id: string) => void
     onSave: () => void
     onCancel: () => void
+    onClear: () => void
 }
 
 export function ConfigurationView({
@@ -15,7 +16,8 @@ export function ConfigurationView({
     setWebhookUrl,
     setFileId,
     onSave,
-    onCancel
+    onCancel,
+    onClear
 }: ConfigurationViewProps) {
     return (
         <AutoLayout
@@ -54,7 +56,7 @@ export function ConfigurationView({
 
             <Input
                 value={fileId}
-                placeholder="Enter Figma file ID (optional)"
+                placeholder="Enter Figma file ID or Link https://www.figma.com/design/xxx (optional)"
                 onTextEditEnd={(e) => setFileId(e.characters)}
                 width="fill-parent"
                 fontSize={12}
@@ -109,6 +111,22 @@ export function ConfigurationView({
                         fontSize={12}
                     >
                         Cancel
+                    </Text>
+                </AutoLayout>
+
+                <AutoLayout
+                    verticalAlignItems={'center'}
+                    spacing={8}
+                    stroke="#ff0400"
+                    padding={{ vertical: 8, horizontal: 16 }}
+                    cornerRadius={6}
+                    onClick={onClear}
+                >
+                    <Text
+                        fill="#ff0400"
+                        fontSize={12}
+                    >
+                        Clear
                     </Text>
                 </AutoLayout>
             </AutoLayout>

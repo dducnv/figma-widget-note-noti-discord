@@ -15,6 +15,7 @@ export function useStorage(
             figma.clientStorage.getAsync('discord_webhook_url'),
             figma.clientStorage.getAsync('figma_file_id')
         ]).then(([url, id]) => {
+
             if (url && typeof url === 'string') {
                 setWebhookUrl(url)
             }
@@ -23,12 +24,19 @@ export function useStorage(
             }
             setIsInitialized(true)
         })
-    })
+    },)
 }
 
 export async function saveToStorage(data: StorageData): Promise<void> {
     await Promise.all([
         figma.clientStorage.setAsync('discord_webhook_url', data.webhookUrl),
         figma.clientStorage.setAsync('figma_file_id', data.fileId)
+    ])
+} 
+
+export async function clearStorage(): Promise<void> {
+    await Promise.all([
+        figma.clientStorage.deleteAsync('discord_webhook_url'),
+        figma.clientStorage.deleteAsync('figma_file_id')
     ])
 } 

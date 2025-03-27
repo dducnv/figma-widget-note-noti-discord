@@ -5,7 +5,7 @@ import { Comment } from './types/comment'
 import { ConfigurationView } from './components/ConfigurationView'
 import { NoteView } from './components/NoteView'
 import { InputView } from './components/InputView'
-import { useStorage, saveToStorage } from './hooks/useStorage'
+import { useStorage, saveToStorage, clearStorage } from './hooks/useStorage'
 import { sendToDiscord } from './services/discord'
 import {
   getCurrentDateTime,
@@ -82,12 +82,21 @@ function Widget() {
     }
   }
 
+  function extractFileId(url: string): string | null {
+    const match = url.match(/https:\/\/www\.figma\.com\/design\/([^\/]+)/);
+    return match ? match[1] : null;
+  }
+
   const handleSaveConfig = async () => {
-    if (!webhookUrl.startsWith('https://discord.com/api/webhooks/')) {
+    if (!webhookUrl.startsWith('https://discord.com/api/webhooks/') || !webhookUrl.startsWith('https://discordapp.com/api/webhooks/')) {
       figma.notify('Please enter a valid Discord webhook URL')
       return
     }
 
+    if (fileId.length > 0 && fileId.startsWith('https://www.figma.com/design/')) {
+      setFileId(extractFileId(fileId) ?? fileId)
+    }
+    
     try {
       await saveToStorage({ webhookUrl, fileId })
       setIsConfiguring(false)
@@ -118,6 +127,11 @@ function Widget() {
         setFileId={setFileId}
         onSave={handleSaveConfig}
         onCancel={() => setIsConfiguring(false)}
+        onClear={async () => {
+          await clearStorage();
+          setWebhookUrl('');
+          setFileId('');
+        }}
       />
     )
   }
