@@ -56,7 +56,7 @@ export function InputView({
                         spread: 0
                     }}
                 >
-                    {isEditing ? 'Update' : 'Send'}
+                    {isEditing ? 'Update' : 'Save'}
                 </Text>
             </AutoLayout>
         </AutoLayout>

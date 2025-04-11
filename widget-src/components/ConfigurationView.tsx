@@ -1,3 +1,5 @@
+import { extractFileId } from "../utils/figma"
+
 const { widget } = figma
 const { AutoLayout, Input, Text } = widget
 interface ConfigurationViewProps {
@@ -19,6 +21,7 @@ export function ConfigurationView({
     onCancel,
     onClear
 }: ConfigurationViewProps) {
+
     return (
         <AutoLayout
             direction="vertical"
@@ -56,8 +59,14 @@ export function ConfigurationView({
 
             <Input
                 value={fileId}
-                placeholder="Enter Figma file ID or Link https://www.figma.com/design/xxx (optional)"
-                onTextEditEnd={(e) => setFileId(e.characters)}
+                placeholder="Enter Figma file ID (optional)"
+                onTextEditEnd={(e) => {
+                    if (e.characters.length > 0 && (e.characters.startsWith('https://www.figma.com/design/') || e.characters.startsWith('www.figma.com/design/'))) {
+                        setFileId(extractFileId(e.characters) ?? e.characters)
+                        return;
+                    }
+                    setFileId(e.characters)
+                }}
                 width="fill-parent"
                 fontSize={12}
                 inputFrameProps={{
@@ -75,7 +84,7 @@ export function ConfigurationView({
                 fill="#666"
                 width="fill-parent"
             >
-                *File ID is optional. If not provided, current file ID will be used.
+                *File ID is optional. If not provided, current file ID will be used, you can parse link figma.com/design/xxx to get id.
             </Text>
 
             <AutoLayout

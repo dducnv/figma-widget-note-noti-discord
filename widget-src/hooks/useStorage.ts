@@ -24,7 +24,7 @@ export function useStorage(
             }
             setIsInitialized(true)
         })
-    },)
+    })
 }
 
 export async function saveToStorage(data: StorageData): Promise<void> {

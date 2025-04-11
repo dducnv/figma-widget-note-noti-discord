@@ -19,4 +19,9 @@ export function getSelectedNodeName(): string {
 
 export function getCurrentFileId(): string {
     return figma.fileKey || ''
-} 
+}
+
+export function extractFileId(url: string): string | null {
+    const match = url.match(/https:\/\/www\.figma\.com\/design\/([^\/]+)/);
+    return match ? match[1] : null;
+}
